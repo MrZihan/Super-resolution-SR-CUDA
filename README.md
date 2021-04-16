@@ -24,3 +24,8 @@ Compiling environment:
   OpenCV >= 3.0
   
   Visual Studio >= 2017 (Windows) or GCC >= 7.3 (Linux)
+  
+Windows release:
+链接：https://pan.baidu.com/s/1lrP3dM5BIFBvDQNkJCSc4Q 
+提取码：c4uv 
+
