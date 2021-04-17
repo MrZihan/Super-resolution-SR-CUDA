@@ -114,15 +114,21 @@ void pixelShuffle(int rows, int cols, Mat& image_H, int item, float* outputBuffe
 			}
 		}
 	}
-	char temp[20];
 	if (imageSet.size() == 1)
 	{
 		imwrite(string(outputpath), image_H);
 	}
 	else
 	{
-		sprintf(temp, (string("%0")+ to_string((int)log10(imageSet.size()) + 1)+"d").c_str(), item + 1);
-		imwrite(outputpath + string("\\") + string((char*)temp) + ".png", image_H);
+		for (int i = imageSet[item].size() - 1; i >= 0; i--)
+		{
+			if (imageSet[item][i] == '\\' || imageSet[item][i] == '/')
+			{
+				imageSet[item] = imageSet[item].substr(i, imageSet[item].size() - i);
+				break;
+			}
+		}
+		imwrite(outputpath + imageSet[item], image_H);
 	}
 }
 int main(int argc, char** argv)
