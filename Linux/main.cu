@@ -129,17 +129,22 @@ void* pixelShuffle (void* args)
 			}
 		}
 	}
-	char temp[20];
 	if (imageSet.size() == 1)
 	{
-		imwrite(outputpath, *image_H);
+		imwrite(string(outputpath), image_H);
 	}
 	else
 	{
-		sprintf(temp, "%04d", item + 1);
-		imwrite(outputpath + string("/") + string((char*)temp) + ".png", *image_H);
+		for (int i = imageSet[item].size() - 1; i >= 0; i--)
+		{
+			if (imageSet[item][i] == '/')
+			{
+				imageSet[item] = imageSet[item].substr(i, imageSet[item].size() - i);
+				break;
+			}
+		}
+		imwrite(outputpath + imageSet[item], image_H);
 	}
-	return NULL;
 }
 
 int main(int argc, char** argv)
