@@ -573,8 +573,8 @@ int main(int argc, char** argv)
 
 		int nx = image.rows*image.cols;
 		int ny = 128;
-		int dimx = 256;
-		int dimy = 1;
+		int dimx = 64;
+		int dimy = 2;
 		dim3 block(dimx, dimy);
 		dim3 grid((nx + block.x - 1) / block.x, (ny + block.y - 1) / block.y);
 		conv_bias_add << <grid, block >> > (d_featuremap_2, d_bias[0], nx, ny);
