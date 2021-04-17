@@ -121,7 +121,7 @@ void pixelShuffle(int rows, int cols, Mat& image_H, int item, float* outputBuffe
 	}
 	else
 	{
-		sprintf(temp, "%04d", item + 1);
+		sprintf(temp, (string("%0")+ to_string((int)log10(imageSet.size()) + 1)+"d").c_str(), item + 1);
 		imwrite(outputpath + string("\\") + string((char*)temp) + ".png", image_H);
 	}
 }
@@ -229,6 +229,7 @@ int main(int argc, char** argv)
 
 	Mat image;
 	image = imread(inputpath);
+	
 	if (image.empty())
 	{
 		glob(inputpath, imageSet, false);
@@ -530,7 +531,6 @@ int main(int argc, char** argv)
 		}
 
 		cudaMemcpy(d_featuremap_1, inputBuffer, input_channels * image_size * sizeof(float), cudaMemcpyHostToDevice);
-
 		const float alpha = 1.0f, beta = 0.0f;
 		// 真正的卷积操作 ！！！前向卷积
 		checkCUDNN(cudnnConvolutionForward(handle,
@@ -549,8 +549,8 @@ int main(int argc, char** argv)
 
 		int nx = image.rows*image.cols;
 		int ny = 128;
-		int dimx = 256;
-		int dimy = 1;
+		int dimx = 64;
+		int dimy = 2;
 		dim3 block(dimx, dimy);
 		dim3 grid((nx + block.x - 1) / block.x, (ny + block.y - 1) / block.y);
 		conv_bias_add << <grid, block >> > (d_featuremap_2, d_bias[0], nx, ny);
@@ -567,7 +567,7 @@ int main(int argc, char** argv)
 			output_descriptor_first,
 			d_featuremap_2));
 		//cudnnDestroyActivationDescriptor(activation_descriptor);
-
+		
 		for (int i = 1; i < NUM_OF_CONV_LAYERS - 1; i++)
 		{
 			if (i % 2 == 0)
