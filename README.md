@@ -1,5 +1,5 @@
 # Super-resolution-SR-CUDA
-High-performance SRMD implementation using CUDA.
+High-performance [SRMD](https://github.com/cszn/SRMD) implementation using CUDA.
 
 Usage: sr-cuda -i infile -o outfile [options]...
 
